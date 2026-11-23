@@ -1,191 +1,104 @@
-# Vite Pug Template
+# Keepsake: landing (Vite + Pug + SCSS)
 
-Шаблон для швидкого старту проєктів з використанням **Vite**, **Pug**, та **SCSS**.  
-Структура оптимізована для компонентного підходу: Pug-компоненти, SCSS-модулі та гнучка система підключення стилів.
+Лендінг дизайн-агенції Keepsake з лабораторної роботи №7 (завдання 4), перенесений на професійний робочий процес: Pug, модульний SCSS, PostCSS, оптимізовані зображення, Prettier, Stylelint і Git hooks.
+Макет, токени, брейкпоінти, стани й доступність не змінені: висота сторінки збігається з lab-07 на 375 / 768 / 1280 px (5228 / 4482 / 3771 px).
 
----
+**Демо:** https://airnova567.github.io/landing-keepsake-vite/
 
-## 🔧 Вимоги до середовища
-Для запуску проєкту необхідно мати встановлений Node.js (версія 20 або новіша) та npm.
+## Вимоги до середовища
 
-### 1. Перевірка наявності Node.js і npm
-```bash
-node -v
-npm -v
-```
-Якщо у консолі з’явилися версії (наприклад v20.10.0), усе гаразд ✅
+Node.js LTS (20 або новіший) і npm.
 
-### 2. Встановлення Node.js
-Якщо Node.js не встановлено — завантажте останню LTS-версію з офіційного сайту:
-👉 https://nodejs.org
-
-Після встановлення перевірте знову:
 ```bash
 node -v
 npm -v
 ```
 
-## 🚀 Запуск проєкту
+## Команди
 
-### 1. Встановлення залежностей
 ```bash
-npm install
+npm install        # встановлення залежностей
+npm run dev        # dev-сервер з hot reload
+npm run build      # продакшн-збірка в dist/
+npm run preview    # локальний перегляд збірки
+npm run format     # Prettier --write
+npm run lint       # Stylelint + Prettier --check
+npm run images     # генерація AVIF / WebP / JPEG з images-src/ у src/assets/images/
 ```
 
-### 2. Режим розробки
-```bash
-npm run dev
-```
-Проєкт запуститься локально (зазвичай на [http://localhost:5173](http://localhost:5173))  
-Файли автоматично оновлюються при зміні коду.
-
-### 3. Збірка для продакшну
-```bash
-npm run build
-```
-Готові файли з’являться в директорії `dist/`.
-
-### 4. Перегляд зібраної версії
-```bash
-npm run preview
-```
-
----
-
-## 🧩 Структура проєкту
+## Структура проєкту
 
 ```
+images-src/            вихідні зображення (SVG), з яких sharp генерує растр
+scripts/images.js      npm run images: AVIF + WebP + JPEG у двох ширинах
 src/
- ├─ assets/              # зображення, шрифти, інші ресурси
- ├─ components/          # Pug-компоненти (header, footer, content, ...)
- ├─ data/                # файли з даними
- ├─ includes/            # head, meta, fonts (частини шаблону)
- ├─ layouts/             # основні макети сторінок
- ├─ pages/               # сторінки сайту
- ├─ styles/              # SCSS-структура
- │   ├─ base/            # базові стилі: reset, типографія
- │   ├─ components/      # стилі компонентів
- │   ├─ layout/          # сітка, секції
- │   ├─ utils/           # змінні, міксіни
- │   └─ main.scss        # головний файл стилів
- └─ vite.config.js       # налаштування Vite + Vituum
+├── assets/images/     згенеровані зображення (avif, webp, jpg)
+├── components/        header.pug, footer.pug, sections/*.pug
+├── data/              дані секцій (масиви об'єктів)
+├── includes/          meta, fonts, svg/ (іконки послуг)
+├── layouts/main.pug   базовий макет
+├── mixins/            Pug-міксини
+├── pages/index.pug    сторінка
+└── styles/
+    ├── abstracts/     змінні, функції, міксини (_index.scss з @forward)
+    ├── base/          reset, CSS custom properties, типографіка
+    ├── layout/        container, header, hero, footer
+    ├── components/    один БЕМ-блок: один файл
+    └── main.scss      єдина точка входу
 ```
 
----
+## Архітектура Pug
 
-## 📝 Робота з Pug
+- `layouts/main.pug` містить блоки `meta`, `title`, `styles`, `fonts`, `header`, `content`, `footer`, `scripts`, `data`. `pages/index.pug` успадковує макет через `extends`.
+- `append meta` додає `description` та Open Graph, `prepend styles` додає preload шрифтів до підключення стилів.
+- Хедер, футер і кожна секція — окремі файли, підключені через `include`; SVG-іконки послуг теж підключаються через `include`.
+- Повторювані дані (навігація, категорії, роботи, послуги, статистика, клієнти, журнал, колонки футера, соцмережі) лежать у `src/data/` як масиви об'єктів і виводяться через `each`.
+- Міксини: `+btn` (`block` + `&attributes`), `+icon` (`case`/`when`), `+picture`, `+work-card`, `+socials`, `+section-title`.
+- Умови: `loading="lazy"` / `fetchpriority="high"`, активний пункт меню, `aria-current`; інтерполяція в тексті й атрибутах; службові коментарі `//-`.
+- Фільтр портфоліо на `:checked ~` зберігається: радіокнопки та чипси також генеруються через `each`.
 
-### 📄 Мінімальний приклад сторінки (`src/pages/index.pug`)
+## Архітектура SCSS
 
-```pug
-doctype html
-html(lang="en")
-  include ../includes/head.pug
+- Лише `@use` / `@forward`; кожна папка має `_index.scss`, `main.scss` — єдина точка входу.
+- Дизайн-токени з lab-07 — SCSS map-и (`$colors`, `$fonts`, `$breakpoints`) у `abstracts/`; кольори й шрифти через `@each` перетворюються на CSS custom properties в `:root`.
+- `@include mq(md)` бере брейкпоінт із map-а й використовує лише `min-width` (mobile first). Власна функція `rem($px)` на `sass:math`, міксини `visually-hidden`, `flex-center`, `focus-ring`, `heading-text`, `motion-safe-transition`.
+- БЕМ через `&__` і `&--`, вкладеність не глибша за 3 рівні, без `id` у селекторах і без `!important`; вендорні префікси вручну не пишуться.
 
-  body
-    include ../components/header.pug
+## Інструменти
 
-    main.page
-      section.intro
-        h1 Hello, Vite + Pug + SCSS!
-        p Це приклад простої сторінки з компонентами.
+| Інструмент                        | Навіщо                                                          |
+| --------------------------------- | --------------------------------------------------------------- |
+| Vite + vituum                     | dev-сервер, збірка, хешування файлів, мініфікація CSS (esbuild) |
+| Pug (`@vituum/vite-plugin-pug`)   | генерація HTML зі шаблонів, даних і міксинів                    |
+| Sass                              | препроцесор: модулі, змінні, map-и, функції, міксини            |
+| PostCSS + Autoprefixer            | постпроцесор: вендорні префікси за списком браузерів            |
+| Browserslist (`.browserslistrc`)  | цільові браузери для Autoprefixer                               |
+| sharp                             | генерація AVIF / WebP / JPEG у кількох ширинах                  |
+| Prettier + `@prettier/plugin-pug` | єдиний стиль коду, зокрема `.pug`                               |
+| Stylelint + standard-scss         | перевірка SCSS, БЕМ-шаблон класів, ліміт вкладеності            |
+| husky + lint-staged               | pre-commit хук: перевірка лише змінених файлів                  |
+| commitlint                        | повідомлення комітів за Conventional Commits                    |
+| GitHub Actions                    | lint, збірка та деплой `dist` на GitHub Pages                   |
 
-    include ../components/footer.pug
+`sass`, `vite`, `vituum`, плагін Pug і всі лінтери лежать у `devDependencies`: вони потрібні лише під час збирання, готовий сайт — статичні файли без Node.
+
+## Цільові браузери
+
+```
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Edge versions
+last 2 Safari versions
+last 2 iOS versions
 ```
 
----
+`npx browserslist` показує фактичний список, `npx autoprefixer --info` — які властивості префіксуються (`user-select`, `text-size-adjust` тощо).
 
-### 🧱 Приклад компонентів
+## Оптимізація: до і після
 
-#### `src/components/header.pug`
-```pug
-header.site-header
-  h2 Логотип або назва сайту
-```
+| Що                                          | До                    | Після                                     |
+| ------------------------------------------- | --------------------- | ----------------------------------------- |
+| CSS (lab-07: `reset.css` + `style.css`)     | 29.6 KB (5.4 KB gzip) | 21.7 KB мініфікований (4.3 KB gzip)       |
+| Зображення: PNG, 13 картинок у двох ширинах | 197.2 KB              | AVIF 45.5 KB, WebP 55.7 KB, JPEG 109.1 KB |
 
-#### `src/components/footer.pug`
-```pug
-footer.site-footer
-  p © 2025 Мій шаблон на Vite + Pug
-```
-
-#### `src/includes/head.pug`
-```pug
-head
-  meta(charset="utf-8")
-  meta(name="viewport", content="width=device-width, initial-scale=1")
-  title Vite Pug Template
-  link(rel="stylesheet", href="/src/styles/main.scss")
-```
-
----
-
-## 🎨 Робота з SCSS
-
-### 📂 Структура стилів
-Головний файл — `src/styles/main.scss`
-
-```scss
-@use 'utils/index' as *;
-@use 'base/index' as *;
-@use 'layout/index' as *;
-@use 'components/index' as *;
-```
-
----
-
-### 📄 Мінімальний приклад `src/styles/utils/_variables.scss`
-```scss
-$color-bg: #f5f5f5;
-$color-text: #222;
-$font-main: 'Inter', sans-serif;
-```
-
----
-
-### 📄 Мінімальний приклад `src/styles/main.scss`
-```scss
-@use 'utils/variables' as *;
-
-body {
-  font-family: $font-main;
-  background-color: $color-bg;
-  color: $color-text;
-  margin: 0;
-  padding: 0;
-}
-
-.site-header,
-.site-footer {
-  text-align: center;
-  padding: 1.5rem;
-  background: #ddd;
-}
-
-.intro {
-  text-align: center;
-  padding: 3rem 1rem;
-}
-```
-
----
-
-## 🧠 Корисні поради
-
-- Усі компоненти підключай через `include`.
-- SCSS імпортуй лише у `main.scss`, а не у Pug-файлах.
-- Додавай зображення до `src/assets/` і використовуй їх у коді як:
-  ```pug
-  img(src="/src/assets/logo.png" alt="Logo")
-  ```
-
----
-
-## 📦 Використані пакети
-
-| Пакет | Опис |
-|-------|------|
-| [Vite](https://vitejs.dev/) | Швидкий білдер проєктів |
-| [Vituum](https://vituum.dev/) | Плагін для шаблонізаторів |
-| [@vituum/vite-plugin-pug](https://www.npmjs.com/package/@vituum/vite-plugin-pug) | Підтримка Pug |
-| [Sass](https://sass-lang.com/) | Препроцесор стилів |
+Браузер завантажує AVIF, якщо підтримує його, інакше WebP, інакше JPEG, причому потрібної ширини за `srcset` / `sizes`.
