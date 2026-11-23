@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use '../abstracts' as *;
+
+:root {
+  @each $name, $value in $colors {
+    --color-#{$name}: #{$value};
+  }
+
+  @each $name, $stack in $fonts {
+    --font-#{$name}: #{$stack};
+  }
+
+  --gutter: #{map.get($gutters, 'base')};
+  --section-gap: #{map.get($section-gaps, 'base')};
+  --header-h: #{map.get($header-heights, 'base')};
+  --container: #{$container};
+
+  @include mq('md') {
+    --gutter: #{map.get($gutters, 'md')};
+    --section-gap: #{map.get($section-gaps, 'md')};
+    --header-h: #{map.get($header-heights, 'md')};
+  }
+
+  @include mq('lg') {
+    --gutter: #{map.get($gutters, 'lg')};
+    --section-gap: #{map.get($section-gaps, 'lg')};
+    --header-h: #{map.get($header-heights, 'lg')};
+  }
+}

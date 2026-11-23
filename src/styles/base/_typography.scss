@@ -1,0 +1,33 @@
+@use '../abstracts' as *;
+
+html {
+  scroll-padding-top: 72px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  padding-top: var(--header-h);
+  background: var(--color-white);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: rem(14);
+  font-weight: 400;
+  line-height: 22px;
+
+  &:has(.nav-toggle:checked) {
+    overflow: hidden;
+  }
+
+  @include mq('md') {
+    &:has(.nav-toggle:checked) {
+      overflow: auto;
+    }
+  }
+}
+
+:focus-visible {
+  @include focus-ring;
+}
