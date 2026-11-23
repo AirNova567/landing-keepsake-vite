@@ -1,0 +1,9 @@
+{
+  "plugins": ["@prettier/plugin-pug"],
+  "singleQuote": true,
+  "semi": false,
+  "printWidth": 100,
+  "tabWidth": 2,
+  "pugAttributeSeparator": "always",
+  "pugCommentPreserveSpaces": "trim-all"
+}
