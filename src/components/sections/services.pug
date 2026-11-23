@@ -1,0 +1,19 @@
+section#about.section.services(aria-labelledby='services-title')
+  .container
+    +section-title('services-title', 'What do we do')
+    p.section-lead We are a small team of designers and makers who help brands look their best online and offline.
+    ul.services__list
+      each service in services
+        li.service
+          span.service__icon
+            case service.icon
+              when 'web'
+                include ../../includes/svg/web.svg
+              when 'motion'
+                include ../../includes/svg/motion.svg
+              when 'print'
+                include ../../includes/svg/print.svg
+              default
+                include ../../includes/svg/illustration.svg
+          h3.service__title #{ service.title }
+          p.service__text #{ service.text }

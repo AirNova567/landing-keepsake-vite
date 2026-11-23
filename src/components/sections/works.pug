@@ -1,0 +1,21 @@
+section#works.section.works(aria-labelledby='works-title')
+  .container
+    each category in categories
+      input.filter-input(
+        class=`filter-input--${category.id}`,
+        type='radio',
+        name='filter',
+        id=`filter-${category.id}`,
+        checked=category.id === 'all'
+      )
+    input#load-more.works__toggle.visually-hidden(type='checkbox')
+    .works__head
+      +section-title('works-title', 'Our awesome works')
+      .works__chips(role='group', aria-label='Filter works by category')
+        each category in categories
+          label.chip(class=`chip--${category.id}`, for=`filter-${category.id}`) #{ category.label }
+    .works__grid
+      each work, i in works
+        +work-card(work, i)
+    .works__more
+      label.btn.btn--secondary(for='load-more') Load more works

@@ -1,0 +1,25 @@
+section.section.clients(aria-labelledby='clients-title')
+  .container
+    +section-title('clients-title', 'Clients & kind words')
+    p.section-lead Some of the teams that trusted us with their brands.
+    ul.clients__logos
+      each client in clients
+        li.client-logo(class=`client-logo--${client.id}`) #{ client.name }
+    figure.testimonial
+      p.testimonial__mark(aria-hidden='true') “
+      blockquote.testimonial__text #{ testimonial.text }
+      figcaption.testimonial__author
+        span.testimonial__person
+          +picture(testimonial.image, '', {
+            cls: 'testimonial__avatar',
+            widths: [96, 192],
+            sizes: '48px',
+            width: 192,
+            height: 192,
+          })
+          span.testimonial__info
+            span.testimonial__name #{ testimonial.name }
+            span.testimonial__role #{ testimonial.role }
+        span.testimonial__dots(aria-hidden='true')
+          - for (let i = 0; i < testimonial.slides; i++)
+            span.testimonial__dot(class={ 'testimonial__dot--active': i === 0 })
