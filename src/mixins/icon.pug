@@ -1,0 +1,48 @@
+mixin icon(name)
+  case name
+    when 'chev'
+      svg.icon.icon--chev(
+        width='6',
+        height='11',
+        viewBox='0 0 6 11',
+        fill='none',
+        aria-hidden='true'
+      )&attributes(attributes)
+        path(d='M.7.7l4.6 4.8L.7 10.3', stroke='currentColor', stroke-width='1.4')
+    when 'mail'
+      svg.icon.icon--mail(
+        width='14',
+        height='10',
+        viewBox='0 0 14 10',
+        fill='none',
+        aria-hidden='true'
+      )&attributes(attributes)
+        rect(x='.6', y='.6', width='12.8', height='8.8', stroke='currentColor', stroke-width='1.2')
+        path(d='M.8 1l6.2 4.6L13.2 1', stroke='currentColor', stroke-width='1.2')
+    when 'heart'
+      svg.icon.icon--heart(
+        width='14',
+        height='13',
+        viewBox='0 0 14 13',
+        fill='currentColor',
+        aria-hidden='true'
+      )&attributes(attributes)
+        path(d='M7 12.4L1.4 6.8a3.4 3.4 0 014.8-4.8L7 2.8l.8-.8a3.4 3.4 0 014.8 4.8L7 12.4z')
+    when 'plus'
+      svg.icon.icon--plus(
+        width='44',
+        height='44',
+        viewBox='0 0 44 44',
+        fill='none',
+        aria-hidden='true'
+      )&attributes(attributes)
+        path(d='M22 13v18M13 22h18', stroke='#fff', stroke-width='2')
+    when 'up'
+      svg.icon.icon--up(
+        width='16',
+        height='16',
+        viewBox='0 0 16 16',
+        fill='none',
+        aria-hidden='true'
+      )&attributes(attributes)
+        path(d='M2 11l6-6 6 6', stroke='#fff', stroke-width='2')

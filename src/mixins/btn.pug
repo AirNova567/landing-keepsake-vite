@@ -1,0 +1,6 @@
+mixin btn(text, href = '#', modifier = 'primary')
+  a.btn(class=`btn--${modifier}`, href=href)&attributes(attributes)
+    if block
+      block
+    if text
+      | #{ text }

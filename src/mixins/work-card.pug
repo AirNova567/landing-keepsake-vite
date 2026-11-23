@@ -1,0 +1,16 @@
+mixin work-card(work, i = 0)
+  - const label = work.category[0].toUpperCase() + work.category.slice(1)
+  article.work(data-category=work.category)
+    a.work__link(href='#', aria-label=`${work.title}, ${label}`)
+      +picture(work.image, work.alt, {
+        cls: 'work__img',
+        sizes: '(min-width: 1280px) 357px, (min-width: 768px) 50vw, 100vw',
+        eager: i === 0,
+        priority: i === 0,
+      })
+      .work__overlay
+        .work__plus
+          +icon('plus').work__plus-icon
+        h3.work__title #{ work.title }
+        .work__line
+        p.work__category #{ label }

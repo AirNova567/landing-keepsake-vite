@@ -1,0 +1,5 @@
+mixin section-title(id, text)
+  h2.section-title(id=id)&attributes(attributes)
+    | #{ text }
+    if block
+      block

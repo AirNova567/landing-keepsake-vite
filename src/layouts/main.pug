@@ -1,0 +1,21 @@
+include ../mixins/index
+
+block data
+
+doctype html
+html(lang='en')
+  head
+    block meta
+      meta(charset='utf-8')
+      meta(name='viewport', content='width=device-width, initial-scale=1')
+    block title
+      title Keepsake
+    block styles
+      link(rel='stylesheet', href='/src/styles/main.scss')
+    block fonts
+  body#top
+    block header
+    main
+      block content
+    block footer
+    block scripts

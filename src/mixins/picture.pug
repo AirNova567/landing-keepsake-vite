@@ -1,0 +1,18 @@
+mixin picture(name, alt, options = {})
+  - const { widths = [400, 800], sizes = '100vw', width = 800, height = 632, eager = false, priority = false, cls = '', dir = '/src/assets/images' } = options
+  - const srcset = (ext) => widths.map((w) => `${dir}/${name}-${w}.${ext} ${w}w`).join(', ')
+  picture
+    each format in ['avif', 'webp']
+      source(type=`image/${format}`, srcset=srcset(format), sizes=sizes)
+    img(
+      class=cls,
+      src=`${dir}/${name}-${widths[widths.length - 1]}.jpg`,
+      srcset=srcset('jpg'),
+      sizes=sizes,
+      alt=alt,
+      width=width,
+      height=height,
+      loading=eager ? false : 'lazy',
+      fetchpriority=priority ? 'high' : false,
+      decoding='async'
+    )
