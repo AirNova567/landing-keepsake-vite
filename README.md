@@ -1,9 +1,8 @@
 # Keepsake: landing (Vite + Pug + SCSS)
 
 Лендінг дизайн-агенції Keepsake з лабораторної роботи №7 (завдання 4), перенесений на професійний робочий процес: Pug, модульний SCSS, PostCSS, оптимізовані зображення, Prettier, Stylelint і Git hooks.
-Макет, токени, брейкпоінти, стани й доступність не змінені: висота сторінки збігається з lab-07 на 375 / 768 / 1280 px (5228 / 4482 / 3771 px).
 
-**Демо:** https://airnova567.github.io/landing-keepsake-vite/
+**Лінк:** https://airnova567.github.io/landing-keepsake-vite/
 
 ## Вимоги до середовища
 
@@ -60,45 +59,6 @@ src/
 ## Архітектура SCSS
 
 - Лише `@use` / `@forward`; кожна папка має `_index.scss`, `main.scss` — єдина точка входу.
-- Дизайн-токени з lab-07 — SCSS map-и (`$colors`, `$fonts`, `$breakpoints`) у `abstracts/`; кольори й шрифти через `@each` перетворюються на CSS custom properties в `:root`.
-- `@include mq(md)` бере брейкпоінт із map-а й використовує лише `min-width` (mobile first). Власна функція `rem($px)` на `sass:math`, міксини `visually-hidden`, `flex-center`, `focus-ring`, `heading-text`, `motion-safe-transition`.
+- Дизайн-токени з lab-07 — SCSS map-и (`$colors`, `$fonts`, `$breakpoints`) у `abstracts/`; 
+- `@include mq(md)` бере брейкпоінт із map-а й використовує лише `min-width` (mobile first). 
 - БЕМ через `&__` і `&--`, вкладеність не глибша за 3 рівні, без `id` у селекторах і без `!important`; вендорні префікси вручну не пишуться.
-
-## Інструменти
-
-| Інструмент                        | Навіщо                                                          |
-| --------------------------------- | --------------------------------------------------------------- |
-| Vite + vituum                     | dev-сервер, збірка, хешування файлів, мініфікація CSS (esbuild) |
-| Pug (`@vituum/vite-plugin-pug`)   | генерація HTML зі шаблонів, даних і міксинів                    |
-| Sass                              | препроцесор: модулі, змінні, map-и, функції, міксини            |
-| PostCSS + Autoprefixer            | постпроцесор: вендорні префікси за списком браузерів            |
-| Browserslist (`.browserslistrc`)  | цільові браузери для Autoprefixer                               |
-| sharp                             | генерація AVIF / WebP / JPEG у кількох ширинах                  |
-| Prettier + `@prettier/plugin-pug` | єдиний стиль коду, зокрема `.pug`                               |
-| Stylelint + standard-scss         | перевірка SCSS, БЕМ-шаблон класів, ліміт вкладеності            |
-| husky + lint-staged               | pre-commit хук: перевірка лише змінених файлів                  |
-| commitlint                        | повідомлення комітів за Conventional Commits                    |
-| GitHub Actions                    | lint, збірка та деплой `dist` на GitHub Pages                   |
-
-`sass`, `vite`, `vituum`, плагін Pug і всі лінтери лежать у `devDependencies`: вони потрібні лише під час збирання, готовий сайт — статичні файли без Node.
-
-## Цільові браузери
-
-```
-last 2 Chrome versions
-last 2 Firefox versions
-last 2 Edge versions
-last 2 Safari versions
-last 2 iOS versions
-```
-
-`npx browserslist` показує фактичний список, `npx autoprefixer --info` — які властивості префіксуються (`user-select`, `text-size-adjust` тощо).
-
-## Оптимізація: до і після
-
-| Що                                          | До                    | Після                                     |
-| ------------------------------------------- | --------------------- | ----------------------------------------- |
-| CSS (lab-07: `reset.css` + `style.css`)     | 29.6 KB (5.4 KB gzip) | 21.7 KB мініфікований (4.3 KB gzip)       |
-| Зображення: PNG, 13 картинок у двох ширинах | 197.2 KB              | AVIF 45.5 KB, WebP 55.7 KB, JPEG 109.1 KB |
-
-Браузер завантажує AVIF, якщо підтримує його, інакше WebP, інакше JPEG, причому потрібної ширини за `srcset` / `sizes`.
