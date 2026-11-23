@@ -1,0 +1,99 @@
+@use '../abstracts' as *;
+
+.footer {
+  padding-block: 48px 28px;
+  background: var(--color-footer);
+
+  &__top {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 36px;
+    padding-bottom: 12px;
+  }
+
+  &__cols {
+    display: flex;
+    gap: 20px;
+  }
+
+  &__col {
+    flex: 1;
+  }
+
+  &__heading {
+    @include heading-text(14px);
+
+    color: var(--color-white);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+    line-height: 20px;
+
+    a {
+      color: #a9adb3;
+      line-height: 20px;
+
+      @include motion-safe-transition(color 0.2s);
+
+      &:hover {
+        color: var(--color-white);
+      }
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    margin-top: 24px;
+    background: #3b3b40;
+  }
+
+  &__bottom {
+    @include flex-center(column, 16px);
+
+    margin-top: 24px;
+  }
+
+  &__copy {
+    color: #777b80;
+    font-size: rem(12);
+    line-height: normal;
+  }
+
+  @include mq('md') {
+    padding-block: 64px 32px;
+
+    &__top {
+      flex-direction: row;
+      justify-content: space-between;
+      padding-bottom: 24px;
+    }
+
+    &__cols {
+      gap: 24px;
+    }
+
+    &__col {
+      flex: none;
+      width: 144px;
+    }
+
+    &__bottom {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+  }
+
+  @include mq('lg') {
+    &__cols {
+      gap: 60px;
+    }
+
+    &__col {
+      width: 180px;
+    }
+  }
+}

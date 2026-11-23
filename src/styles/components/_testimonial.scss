@@ -1,0 +1,92 @@
+@use '../abstracts' as *;
+
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 28px 24px;
+  background: var(--color-bg-light);
+
+  &__mark {
+    color: var(--color-accent);
+    font-family: var(--font-serif);
+    font-size: rem(72);
+    line-height: 44px;
+  }
+
+  &__text {
+    color: var(--color-text-dark);
+    font-size: rem(16);
+    font-weight: 300;
+    line-height: 26px;
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__person {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__avatar {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: normal;
+  }
+
+  &__name {
+    @include heading-text(14px);
+  }
+
+  &__role {
+    color: var(--color-muted);
+    font-size: rem(13);
+  }
+
+  &__dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 4px;
+    background: #cfd5d9;
+
+    &--active {
+      width: 24px;
+      background: var(--color-accent);
+    }
+  }
+
+  @include mq('md') {
+    padding: 40px 48px;
+
+    &__text {
+      font-size: rem(19);
+      line-height: 1.6;
+    }
+  }
+
+  @include mq('lg') {
+    &__text {
+      font-size: rem(22);
+    }
+  }
+}

@@ -1,0 +1,56 @@
+@use '../abstracts' as *;
+
+.services {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 24px;
+    margin-top: 14px;
+
+    @include mq('lg') {
+      grid-template-columns: repeat(4, 1fr);
+      align-items: start;
+    }
+  }
+}
+
+.service {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  &__icon {
+    @include flex-center;
+
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--color-bg-light);
+
+    svg {
+      width: 50%;
+      height: auto;
+    }
+  }
+
+  &__title {
+    @include heading-text(15px);
+  }
+
+  &__text {
+    font-size: rem(13);
+    text-align: center;
+  }
+
+  @include mq('md') {
+    &__icon {
+      width: 96px;
+      height: 96px;
+    }
+
+    &__text {
+      font-size: rem(14);
+    }
+  }
+}

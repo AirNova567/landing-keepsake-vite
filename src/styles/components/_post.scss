@@ -1,0 +1,87 @@
+@use '../abstracts' as *;
+
+.journal {
+  padding-bottom: var(--section-gap);
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 14px;
+
+    @include mq('lg') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+.post {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+
+  &__thumb {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  &__meta {
+    color: var(--color-meta);
+    font-family: var(--font-heading);
+    font-size: rem(12);
+    letter-spacing: 1px;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    @include heading-text(15px);
+
+    line-height: 21px;
+  }
+
+  &__text {
+    font-size: rem(13);
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: rem(12);
+    letter-spacing: 1.5px;
+    line-height: normal;
+    text-transform: uppercase;
+
+    &:hover {
+      color: var(--color-accent-hover);
+    }
+  }
+
+  @include mq('md') {
+    gap: 20px;
+
+    &__thumb {
+      width: 150px;
+      height: 150px;
+    }
+
+    &__title {
+      font-size: rem(16);
+      line-height: 23px;
+    }
+  }
+}

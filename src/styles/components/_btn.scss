@@ -1,0 +1,49 @@
+@use '../abstracts' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  font-family: var(--font-heading);
+  font-size: rem(12);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+
+  @include motion-safe-transition(background-color 0.2s, border-color 0.2s, color 0.2s);
+
+  &--primary {
+    background: var(--color-accent);
+    color: var(--color-white);
+
+    &:hover {
+      background: var(--color-accent-hover);
+    }
+
+    &:focus-visible {
+      @include focus-ring(var(--color-text-dark));
+    }
+  }
+
+  &--secondary {
+    border-color: var(--color-btn-border);
+    background: var(--color-white);
+    color: var(--color-text-dark);
+
+    &:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+  }
+
+  @include mq('md') {
+    font-size: rem(13);
+  }
+}

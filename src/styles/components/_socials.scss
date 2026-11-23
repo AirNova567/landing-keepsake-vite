@@ -1,0 +1,44 @@
+@use '../abstracts' as *;
+
+.socials {
+  display: flex;
+  gap: 10px;
+}
+
+.social {
+  @include flex-center;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--color-white);
+  font-size: rem(12);
+  font-weight: 700;
+  line-height: normal;
+
+  @include motion-safe-transition(opacity 0.2s);
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &--rss {
+    background: #f7a64a;
+  }
+
+  &--f {
+    background: #4d6db3;
+  }
+
+  &--tw {
+    background: #20b5e9;
+  }
+
+  &--dr {
+    background: #ee7cb0;
+  }
+
+  &--p {
+    background: #e84849;
+  }
+}

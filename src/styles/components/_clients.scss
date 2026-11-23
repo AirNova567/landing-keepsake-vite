@@ -1,0 +1,54 @@
+@use '../abstracts' as *;
+
+.clients {
+  &__logos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 14px;
+
+    @include mq('md') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include mq('lg') {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+}
+
+.client-logo {
+  @include flex-center;
+
+  height: 72px;
+  color: var(--color-logo);
+  font-size: rem(22);
+  letter-spacing: 1px;
+  line-height: normal;
+
+  &--nordly {
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+
+  &--halcyon {
+    font-family: var(--font-serif);
+  }
+
+  &--arco {
+    font-family: var(--font-heading);
+    font-weight: 300;
+  }
+
+  &--pinewood {
+    font-weight: 700;
+  }
+
+  &--vela {
+    font-family: var(--font-serif);
+    font-weight: 700;
+  }
+
+  &--ostra {
+    font-family: var(--font-heading);
+  }
+}

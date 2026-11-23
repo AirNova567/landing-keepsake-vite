@@ -1,0 +1,128 @@
+@use 'sass:list';
+@use '../abstracts' as *;
+
+.works {
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-bottom: 22px;
+  }
+
+  &__chips {
+    display: flex;
+    gap: 8px;
+    margin-right: calc(-1 * var(--gutter));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    .work:nth-child(n + 6) {
+      display: none;
+    }
+  }
+
+  &__more {
+    display: flex;
+    padding-top: 28px;
+
+    .btn {
+      flex: 1;
+    }
+  }
+
+  &__toggle:checked ~ &__grid .work {
+    display: block;
+  }
+
+  &__toggle:checked ~ &__more {
+    display: none;
+  }
+
+  &__toggle:focus-visible ~ &__more .btn {
+    @include focus-ring;
+  }
+
+  @include mq('md') {
+    &__head {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 24px;
+
+      .section-title {
+        flex: none;
+        padding-top: 3.5px;
+        white-space: nowrap;
+      }
+    }
+
+    &__chips {
+      margin-right: 0;
+      overflow: visible;
+    }
+
+    &__grid {
+      grid-template-columns: repeat(2, 1fr);
+
+      .work:nth-child(n + 6) {
+        display: block;
+      }
+
+      .work:nth-child(n + 9) {
+        display: none;
+      }
+    }
+
+    &__more {
+      justify-content: center;
+
+      .btn {
+        flex: none;
+      }
+    }
+  }
+
+  @include mq('lg') {
+    &__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+
+      .work:nth-child(n + 9) {
+        display: block;
+      }
+    }
+  }
+}
+
+.filter-input {
+  @include visually-hidden;
+
+  @each $category in $work-categories {
+    &--#{$category}:checked ~ .works__grid .work {
+      display: block;
+    }
+
+    &--#{$category}:checked ~ .works__grid .work:not([data-category='#{$category}']) {
+      display: none;
+    }
+  }
+
+  @each $category in list.join(('all',), $work-categories, comma) {
+    &--#{$category}:checked ~ .works__head .chip--#{$category} {
+      border-color: var(--color-accent);
+      background: var(--color-accent);
+      color: var(--color-white);
+    }
+
+    &--#{$category}:focus-visible ~ .works__head .chip--#{$category} {
+      @include focus-ring;
+    }
+  }
+}
